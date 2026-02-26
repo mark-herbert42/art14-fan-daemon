@@ -94,8 +94,8 @@ static void FanLow() {
       exit(1);
     }  
    outFile <<"\\_SB.PC00.LPCB.H_EC.WTER 0x20020C20 0x0a"<<endl;
-   outFile <<"\\_SB.PC00.LPCB.H_EC.WTER 0x20020A07 15" <<endl;
-   outFile <<"\\_SB.PC00.LPCB.H_EC.WTER 0x20020A08 15" <<endl;
+   outFile <<"\\_SB.PC00.LPCB.H_EC.WTER 0x20020A07 24" <<endl;
+   outFile <<"\\_SB.PC00.LPCB.H_EC.WTER 0x20020A08 24" <<endl;
    
    outFile.close();
 }
@@ -117,8 +117,8 @@ int main(int argc, char** argv) {
    
     while(!quit) {
 		ReadSysfs();
-		if ((fan_rpm > 0) && (batt_curr < 2500) && (temp_cpu < 55000)) FanOff();  
-		if ((fan_rpm = 0) && (batt_curr < 2500) && (temp_cpu >= 55000) && (temp_cpu < 62000)) FanLow(); 		
+		if ((fan_rpm > 0) && (batt_curr < 2500) && (temp_cpu < 58000)) FanOff();  
+		if (((fan_rpm == 0) || (fan_rpm > 2800)) && (batt_curr < 2500) && (temp_cpu >= 58000) && (temp_cpu < 62000)) FanLow(); 		
 		if (((fan_rpm < 3000) && (temp_cpu >= 62000))||(batt_curr > 2500)) FanAuto();		
 
 

@@ -21,8 +21,8 @@ In order to work the daemon needs 2 modules not included into main kernel tree
 1. Huawei WMI extended driver developed  by Ayman Bagabas  - https://github.com/aymanbagabas/Huawei-WMI
 2. ACPI call module by Michal Kottman (available in many distros ann included into Cachy OS kernel)  - https://github.com/mkottman/acpi_call
 
-What this daemon do - read temp and fan1 speed using sysfs. If the fan is not 0 and temp is below 55 - switch off fans. 
-If the fan is 0 and temp is 55-62 - switch fans to cruise at 15%. where the fans are almost silent.
+What this daemon do - read temp and fan1 speed using sysfs. If the fan is not 0 and temp is below 58 - switch off fans. 
+If the fan is 0 and temp is 58-62 - switch fans to cruise at 24%. where the fans are almost silent.
 if the fan is below 3000 rpm and cpu temp is 62+ or if the battery is being charged at high rate (2.5+ amps ) - switch fan control to auto.
 
 Then sleep for 3 seconds.
