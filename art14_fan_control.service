@@ -1,0 +1,16 @@
+[Unit]
+Description=Honor Magicbook Art 14 fan control  daemon
+Before=multi-user.target
+
+
+[Service]
+Type=simple
+RemainAfterExit=true
+KillMode=none
+SendSIGKILL=no
+User=root
+ExecStart=/usr/local/bin/art14_fan_control
+ExecStop=/usr/sbin/killall art14_fan_control
+
+[Install]
+WantedBy=multi-user.target
