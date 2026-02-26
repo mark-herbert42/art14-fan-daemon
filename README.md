@@ -1,4 +1,4 @@
-#Honor Magicbook Art 14 fan control daemon
+#Honor Magicbook Art 14 2025 fan control daemon
 
 Honor Magicbook Art 14 fan controls are pretty well managed by EC by default with only one issue.
 The fans start to early - in fact laptop can do all office stuff including youtube background video with ambient music without fans blowing easily.
@@ -40,3 +40,4 @@ set rpm:  echo "\_SB.PC00.LPCB.H_EC.WTER 0x20020A07 0" > /proc/acpi/call
 set rpm:  echo "\_SB.PC00.LPCB.H_EC.WTER 0x20020A08 0" > /proc/acpi/call
 0 - stop fan1, 100 - full speed
 
+Daemon created and tested on 2025 version (ArrowLake based), may work on 2024 but not sure about this.
