@@ -18,9 +18,35 @@
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
+#include <dirent.h>
+#include <cstring>
 
 
 using namespace std;
+
+// Scan /sys/class/hwmon and return the base path (e.g. "/sys/class/hwmon/hwmon4")
+// of the device whose "name" file matches `name`. Returns "" if not found.
+string findHwmonByName(const string& name) {
+    DIR* dir = opendir("/sys/class/hwmon");
+    if (!dir) return "";
+    struct dirent* ent;
+    string result;
+    while ((ent = readdir(dir)) != nullptr) {
+        if (strncmp(ent->d_name, "hwmon", 5) != 0) continue;
+        string namePath = string("/sys/class/hwmon/") + ent->d_name + "/name";
+        ifstream nf(namePath);
+        if (!nf) continue;
+        string devName;
+        nf >> devName;
+        nf.close();
+        if (devName == name) {
+            result = string("/sys/class/hwmon/") + ent->d_name;
+            break;
+        }
+    }
+    closedir(dir);
+    return result;
+}
 
 static volatile int quit;
     int temp_cpu,batt_curr, fan_rpm;
@@ -29,9 +55,16 @@ static volatile int quit;
 void ReadSysfs()
 {
 
+    string hwPath  = findHwmonByName("huawei_wmi");
+    string batPath = findHwmonByName("BAT0");
+    if (hwPath.empty() || batPath.empty()) {
+      cout << "Required hwmon devices not found (huawei_wmi / BAT0), "
+           << "please install extended HuaweiWMI module" << endl;
+      exit(1);
+    }
 
     string therm;
-    ifstream inFile1("/sys/class/hwmon/hwmon5/temp1_input");
+    ifstream inFile1(hwPath + "/temp1_input");
     if (inFile1.fail()){
       cout <<"Data could not be read, please install extended HuaweiWMI module"<< endl;
       exit(1);
@@ -41,7 +74,7 @@ void ReadSysfs()
     temp_cpu = (int)stof(therm);
 
     string curr;
-    ifstream inFile2("/sys/class/hwmon/hwmon2/curr1_input");
+    ifstream inFile2(batPath + "/curr1_input");
     if (inFile2.fail()){
       cout <<"Data could not be read, please install extended HuaweiWMI module"<< endl;
       exit(1);
@@ -51,7 +84,7 @@ void ReadSysfs()
     batt_curr = (int)stof(curr);
 
     string rpm;
-    ifstream inFile3("/sys/class/hwmon/hwmon5/fan1_input");
+    ifstream inFile3(hwPath + "/fan1_input");
     if (inFile3.fail()){
       cout <<"Data could not be read, please install extended HuaweiWMI module"<< endl;
       exit(1);
