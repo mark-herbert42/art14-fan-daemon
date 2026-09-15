@@ -151,8 +151,8 @@ int main(int argc, char** argv) {
     while(!quit) {
 		ReadSysfs();
 		if ((fan_rpm > 0) && (batt_curr < 2500) && (temp_cpu < 58000)) FanOff();  
-		if (((fan_rpm == 0) || (fan_rpm > 2800)) && (batt_curr < 2500) && (temp_cpu >= 58000) && (temp_cpu < 62000)) FanLow(); 		
-		if (((fan_rpm < 3000) && (temp_cpu >= 62000))||(batt_curr > 2500)) FanAuto();		
+		if (((fan_rpm == 0) || (fan_rpm > 2800)) && (batt_curr < 2500) && (temp_cpu >= 60000) && (temp_cpu < 64000)) FanLow(); 		
+		if (((fan_rpm < 3000) && (temp_cpu >= 64000))||(batt_curr > 2500)) FanAuto();		
 
 
     
